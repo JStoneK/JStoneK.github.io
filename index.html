@@ -74,19 +74,26 @@
     <article id="post-Openkylin" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2026/05/12/Openkylin/" class="article-date">
-  <time class="dt-published" datetime="2026-05-12T12:12:05.213Z" itemprop="datePublished">2026-05-12</time>
+  <time class="dt-published" datetime="2026-05-11T16:00:00.000Z" itemprop="datePublished">2026-05-12</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2026/05/12/Openkylin/">Openkylin</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="openKylin-2-0-sp2"><a href="#openKylin-2-0-sp2" class="headerlink" title="openKylin 2.0 sp2"></a>openKylin 2.0 sp2</h1><blockquote>
-<p>[!NOTE]</p>
-<p>建议做到某一步骤可以在VM中存一个快照，便于下次启动，**<u>目前发现如果配置好了，下次开机会出现bug无法使用！！！</u>**所以推荐使用快照，这样下次可以从快照启动</p>
-</blockquote>
+        <p><strong>建议做到某一步骤可以在VM中存一个快照，便于下次启动，<u>目前发现如果配置好了，下次开机会出现bug无法使用！！！</u>所以推荐使用快照，这样下次可以从快照启动</strong></p>
 <h2 id="1、解决下载问题："><a href="#1、解决下载问题：" class="headerlink" title="1、解决下载问题："></a>1、解决下载问题：</h2><h4 id="1、更改可写权限"><a href="#1、更改可写权限" class="headerlink" title="1、更改可写权限"></a>1、更改可写权限</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ostree admin unlock</span><br></pre></td></tr></table></figure>
 
 <h4 id="2、创建空白钩子"><a href="#2、创建空白钩子" class="headerlink" title="2、创建空白钩子"></a>2、创建空白钩子</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo tee /usr/bin/ostree-pkgs-guard &lt;&lt;&#x27;EOF&#x27;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line">exit 0</span><br><span class="line">EOF</span><br><span class="line">sudo chmod +x /usr/bin/ostree-pkgs-guard</span><br></pre></td></tr></table></figure>
@@ -111,15 +118,15 @@
 <h4 id="2、加载-x86-64-架构默认配置make-x86-64-defconfig"><a href="#2、加载-x86-64-架构默认配置make-x86-64-defconfig" class="headerlink" title="2、加载 x86_64 架构默认配置make x86_64_defconfig"></a>2、加载 x86_64 架构默认配置make x86_64_defconfig</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make x86_64_defconfig</span><br></pre></td></tr></table></figure>
 
 <p>✅ 成功标志：终端显示 <code>configuration written to .config</code></p>
-<p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260510233107044.png" alt="image-20260510233107044"></p>
+<p><img src="/images/image-20260510233107044.png" alt="image-20260510233107044"></p>
 <h4 id="3、打开内核图形化配置界面"><a href="#3、打开内核图形化配置界面" class="headerlink" title="3、打开内核图形化配置界面"></a>3、打开内核图形化配置界面</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
 
 <p><strong>File systems</strong> → 回车</p>
-<p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260510233300387.png" alt="image-20260510233300387"></p>
+<p><img src="/images/image-20260510233300387.png" alt="image-20260510233300387"></p>
 <p>找到 <code>The Extended 4 (ext4) filesystem</code> → 按 <strong>N</strong> 取消（空框<code>[]</code>）</p>
-<p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260510233507243.png" alt="image-20260510233507243"></p>
+<p><img src="/images/image-20260510233507243.png" alt="image-20260510233507243"></p>
 <p>找到 <code>Btrfs filesystem support</code> → 按 <strong>Y</strong> 勾选（实心<code>&lt;*&gt;</code>）</p>
-<p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260510233606283.png" alt="image-20260510233606283"></p>
+<p><img src="/images/image-20260510233606283.png" alt="image-20260510233606283"></p>
 <p>按 <strong>Tab</strong> 选 <code>&lt;Save&gt;</code> → 回车保存 → 回车确认，这里不保存也可以，因为下一步退出（连按ESC）会提示是否保存已修改的内容，选择yes回车即可</p>
 <p>连续按 <strong>ESC</strong> 退出配置界面</p>
 <h4 id="5、编译裁剪后的内核"><a href="#5、编译裁剪后的内核" class="headerlink" title="5、编译裁剪后的内核"></a>5、编译裁剪后的内核</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make bzImage -j 4</span><br></pre></td></tr></table></figure>
@@ -127,41 +134,41 @@
 <p>（<code>-j4</code>用 4 线程编译，适配虚拟机配置，等待 5-10 分钟完成，这里你有几个核就用几，例如你是8个核，用<code>make bzImage -j 8</code>）</p>
 <p>这里耐心等待即可</p>
 <p>✅ 成功标志：最后提示 <code>Kernel: arch/x86_64/boot/bzImage is ready</code></p>
-<p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260510234400194.png" alt="image-20260510234400194"></p>
+<p><img src="/images/image-20260510234400194.png" alt="image-20260510234400194"></p>
 <h2 id="4、定制-Btrfs-根文件系统"><a href="#4、定制-Btrfs-根文件系统" class="headerlink" title="4、定制 Btrfs 根文件系统"></a>4、定制 Btrfs 根文件系统</h2><h4 id="1、进入-Buildroot-目录"><a href="#1、进入-Buildroot-目录" class="headerlink" title="1、进入 Buildroot 目录"></a>1、进入 Buildroot 目录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ~/workspace/exp3/buildroot-2024.02.6</span><br></pre></td></tr></table></figure>
 
 <h4 id="2、打开配置界面"><a href="#2、打开配置界面" class="headerlink" title="2、打开配置界面"></a>2、打开配置界面</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
 
-<h4 id="3、关键配置"><a href="#3、关键配置" class="headerlink" title="3、关键配置"></a>3、关键配置</h4><h5 id="1、Target-options-→-Target-Architecture-选-x86-64，回车进去有具体选项"><a href="#1、Target-options-→-Target-Architecture-选-x86-64，回车进去有具体选项" class="headerlink" title="1、Target options → Target Architecture 选 x86_64，回车进去有具体选项"></a>1、<strong>Target options</strong> → <code>Target Architecture</code> 选 <code>x86_64</code>，回车进去有具体选项</h5><p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260510235031437.png" alt="image-20260510235031437"></p>
+<h4 id="3、关键配置"><a href="#3、关键配置" class="headerlink" title="3、关键配置"></a>3、关键配置</h4><h5 id="1、Target-options-→-Target-Architecture-选-x86-64，回车进去有具体选项"><a href="#1、Target-options-→-Target-Architecture-选-x86-64，回车进去有具体选项" class="headerlink" title="1、Target options → Target Architecture 选 x86_64，回车进去有具体选项"></a>1、<strong>Target options</strong> → <code>Target Architecture</code> 选 <code>x86_64</code>，回车进去有具体选项</h5><p><img src="/images/image-20260510235031437.png" alt="image-20260510235031437"></p>
 <p><strong>2、Filesystem images</strong> → 勾选 <code>btrfs root filesystem</code></p>
-<p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260510235128564.png" alt="image-20260510235128564"></p>
+<p><img src="/images/image-20260510235128564.png" alt="image-20260510235128564"></p>
 <p><strong>3、System configuration</strong> → <code>Default shell</code> 选 <code>bash</code></p>
 <p>若出现以下问题，则没有显示看不到bash</p>
-<p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260510235243180.png" alt="image-20260510235243180"></p>
+<p><img src="/images/image-20260510235243180.png" alt="image-20260510235243180"></p>
 <p>按<code>ESC</code>回到 Buildroot 的主菜单。</p>
 <p>用方向键选中 <strong>Target packages</strong>，按回车进入。</p>
 <p>找到 <strong>Shells</strong> 选项，按回车进入。</p>
 <p>找到 <code>bash</code> 选项，按<code>Y</code>键勾选（前面会出现<code>&lt;*&gt;</code>标记）。若没有无需管进行下一步</p>
 <p>在 Target packages 的最顶部，找到<code>Show packages that are also provided by busybox</code>，按<code>Y</code>勾选，这样能显示更多相关选项，避免后续配置看不到。</p>
-<p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260510235513364.png" alt="image-20260510235513364"></p>
-<p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260510235706715.png" alt="image-20260510235706715"></p>
+<p><img src="/images/image-20260510235513364.png" alt="image-20260510235513364"></p>
+<p><img src="/images/image-20260510235706715.png" alt="image-20260510235706715"></p>
 <p>此时我们可以看到了</p>
-<p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260510235734425.png" alt="image-20260510235734425"></p>
-<h5 id="4、进入Text-editors-and-viewers"><a href="#4、进入Text-editors-and-viewers" class="headerlink" title="4、进入Text editors and viewers"></a>4、进入Text editors and viewers</h5><p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260511161229546.png"></p>
+<p><img src="/images/image-20260510235734425.png" alt="image-20260510235734425"></p>
+<h5 id="4、进入Text-editors-and-viewers"><a href="#4、进入Text-editors-and-viewers" class="headerlink" title="4、进入Text editors and viewers"></a>4、进入Text editors and viewers</h5><p><img src="/images/image-20260511161229546.png"></p>
 <p>更改vim</p>
-<h5 id="5、进入Networking"><a href="#5、进入Networking" class="headerlink" title="5、进入Networking"></a>5、进入Networking</h5><p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260511161418042.png" alt="image-20260511161418042"></p>
+<h5 id="5、进入Networking"><a href="#5、进入Networking" class="headerlink" title="5、进入Networking"></a>5、进入Networking</h5><p><img src="/images/image-20260511161418042.png" alt="image-20260511161418042"></p>
 <p>选择openssh</p>
 <h5 id="6、更改下载源"><a href="#6、更改下载源" class="headerlink" title="6、更改下载源"></a>6、更改下载源</h5><p>选择download</p>
-<p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260511160635153.png" alt="image-20260511160635153"></p>
+<p><img src="/images/image-20260511160635153.png" alt="image-20260511160635153"></p>
 <p>选择第一个Primary download site</p>
-<p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260511160713314.png" alt="image-20260511160713314"></p>
+<p><img src="/images/image-20260511160713314.png" alt="image-20260511160713314"></p>
 <p>回车进入更换源</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.tuna.tsinghua.edu.cn/buildroot/</span><br></pre></td></tr></table></figure>
 
-<p><img src="C:\Users\Legion\AppData\Roaming\Typora\typora-user-images\image-20260511160908498.png" alt="image-20260511160908498"></p>
+<p><img src="/images/image-20260511160908498.png" alt="image-20260511160908498"></p>
 <p>图中是科大源，清华源是更建议更换的（直接复制给的命令即可）</p>
 <h5 id="7进入-Kernel-菜单（主菜单里的-Kernel，按回车进去）"><a href="#7进入-Kernel-菜单（主菜单里的-Kernel，按回车进去）" class="headerlink" title="7进入 Kernel 菜单（主菜单里的 Kernel，按回车进去）"></a>7进入 <code>Kernel</code> 菜单（主菜单里的 <code>Kernel</code>，按回车进去）</h5><ol>
-<li><p><strong>按空格勾选 <code>[\*] Linux Kernel</code></strong>（不勾上的话，后面的配置选项不会显示）</p>
+<li><p><strong>按空格勾选 <code>[/*] Linux Kernel</code></strong>（不勾上的话，后面的配置选项不会显示）</p>
 </li>
 <li><p>找到 <code>Kernel configuration</code> 下面的选项（默认是个下拉菜单），按回车进入</p>
 </li>
@@ -189,7 +196,7 @@
 <p>✅ 成功标志：生成文件 <code>output/images/rootfs.btrfs</code></p>
 <h2 id="5、QEMU-启动裁剪后的系统"><a href="#5、QEMU-启动裁剪后的系统" class="headerlink" title="5、QEMU 启动裁剪后的系统"></a>5、QEMU 启动裁剪后的系统</h2><h4 id="1、拷贝内核和文件系统到统一目录"><a href="#1、拷贝内核和文件系统到统一目录" class="headerlink" title="1、拷贝内核和文件系统到统一目录"></a>1、拷贝内核和文件系统到统一目录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~/workspace/exp3</span><br><span class="line">cp linux-6.6.48/arch/x86_64/boot/bzImage ./</span><br><span class="line">cp buildroot-2024.02.6/output/images/rootfs.btrfs ./</span><br></pre></td></tr></table></figure>
 
-<h4 id="2、启动虚拟机（直接复制整条命令）"><a href="#2、启动虚拟机（直接复制整条命令）" class="headerlink" title="2、启动虚拟机（直接复制整条命令）"></a>2、启动虚拟机（直接复制整条命令）</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-x86_64 \</span><br><span class="line">-m 2048 \</span><br><span class="line">-smp 2 \</span><br><span class="line">-kernel ./bzImage \</span><br><span class="line">-drive file=./rootfs.btrfs,if=virtio,format=raw \</span><br><span class="line">-append &quot;console=ttyS0 root=/dev/vda rw init=/sbin/init&quot; \</span><br><span class="line">-virtfs local,path=/,mount_tag=host0,security_model=passthrough \</span><br><span class="line">-device edu \</span><br><span class="line">-nographic</span><br></pre></td></tr></table></figure>
+<h4 id="2、启动虚拟机（直接复制整条命令）"><a href="#2、启动虚拟机（直接复制整条命令）" class="headerlink" title="2、启动虚拟机（直接复制整条命令）"></a>2、启动虚拟机（直接复制整条命令）</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-x86_64 /</span><br><span class="line">-m 2048 /</span><br><span class="line">-smp 2 /</span><br><span class="line">-kernel ./bzImage /</span><br><span class="line">-drive file=./rootfs.btrfs,if=virtio,format=raw /</span><br><span class="line">-append &quot;console=ttyS0 root=/dev/vda rw init=/sbin/init&quot; /</span><br><span class="line">-virtfs local,path=/,mount_tag=host0,security_model=passthrough /</span><br><span class="line">-device edu /</span><br><span class="line">-nographic</span><br></pre></td></tr></table></figure>
 
 <p>✅ 成功标志：进入命令行，系统正常启动！</p>
 <p>✅ 关键参数说明：</p>
@@ -226,7 +233,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/05/12/Openkylin/" data-id="cmp2li0m70001esvs5l3s90hr" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/05/12/Openkylin/" data-id="cmp2m83og0001g0vs3qevdnb5" data-title="Openkylin" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -241,7 +248,7 @@
     <article id="post-MyFirstArticle" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/06/24/MyFirstArticle/" class="article-date">
-  <time class="dt-published" datetime="2025-06-24T03:32:29.000Z" itemprop="datePublished">2025-06-24</time>
+  <time class="dt-published" datetime="2025-06-23T16:00:00.000Z" itemprop="datePublished">2025-06-24</time>
 </a>
     
   </div>
@@ -266,7 +273,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/06/24/MyFirstArticle/" data-id="cmp2li0m40000esvshylq2rfh" data-title="MyFirstArticle" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/06/24/MyFirstArticle/" data-id="cmp2m83od0000g0vs75pefhh0" data-title="MyFirstArticle" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -309,7 +316,7 @@
       <ul>
         
           <li>
-            <a href="/2026/05/12/Openkylin/">(no title)</a>
+            <a href="/2026/05/12/Openkylin/">Openkylin</a>
           </li>
         
           <li>
