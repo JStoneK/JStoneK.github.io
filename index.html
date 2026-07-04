@@ -205,7 +205,7 @@
 <li><code>-virtfs</code>：配置 9p 文件共享，用于宿主机和虚拟机传输文件</li>
 <li><code>-nographic</code>：无图形模式，终端直接作为虚拟机控制台</li>
 </ul>
-<h3 id="挂载-9p-共享目录（宿主机和虚拟机文件互通）-实验3"><a href="#挂载-9p-共享目录（宿主机和虚拟机文件互通）-实验3" class="headerlink" title="挂载 9p 共享目录（宿主机和虚拟机文件互通）&#x2F;实验3"></a>挂载 9p 共享目录（宿主机和虚拟机文件互通）&#x2F;实验3</h3><h4 id="0、先在宿主机编译好文件"><a href="#0、先在宿主机编译好文件" class="headerlink" title="0、先在宿主机编译好文件"></a>0、先在宿主机编译好文件</h4><p>把写好的驱动代码的Makefile修改为qemu虚拟机的linux内核版本编译，这里让大模型写一个就好，正常make编译即可</p>
+<h2 id="6、挂载-9p-共享目录（宿主机和虚拟机文件互通）-实验3"><a href="#6、挂载-9p-共享目录（宿主机和虚拟机文件互通）-实验3" class="headerlink" title="6、挂载 9p 共享目录（宿主机和虚拟机文件互通）&#x2F;实验3"></a>6、挂载 9p 共享目录（宿主机和虚拟机文件互通）&#x2F;实验3</h2><h4 id="0、先在宿主机编译好文件"><a href="#0、先在宿主机编译好文件" class="headerlink" title="0、先在宿主机编译好文件"></a>0、先在宿主机编译好文件</h4><p>把写好的驱动代码的Makefile修改为qemu虚拟机的linux内核版本编译，这里让大模型写一个就好，正常make编译即可</p>
 <h4 id="1、在-QEMU-虚拟机终端内执行"><a href="#1、在-QEMU-虚拟机终端内执行" class="headerlink" title="1、在 QEMU 虚拟机终端内执行"></a>1、在 QEMU 虚拟机终端内执行</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /mnt/hostshare</span><br><span class="line">mount -t 9p -o trans=virtio hostshare /mnt/hostshare</span><br></pre></td></tr></table></figure>
 
 <p>✅ 挂载成功后，<code>/mnt/host</code> 可以访问宿主机的所有文件，用于拷贝 Edu 驱动源码</p>
