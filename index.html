@@ -1,374 +1,326 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>JSK's Blog - Stones, Codes, and Life</title><meta name="author" content="JStoneK"><meta name="copyright" content="JStoneK"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="JSK 的博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="JSK&#39;s Blog">
+<meta property="og:url" content="https://jstonek.github.io/index.html">
+<meta property="og:site_name" content="JSK&#39;s Blog">
+<meta property="og:description" content="JSK 的博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jstonek.github.io/images/avatar.png">
+<meta property="article:author" content="JStoneK">
+<meta property="article:tag" content="JSK,分享,博客">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+<meta name="twitter:image" content="https://jstonek.github.io/images/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "JSK's Blog",
+  "alternateName": [
+    "Stones, Codes, and Life",
+    "jstonek.github.io"
+  ],
+  "url": "https://jstonek.github.io/"
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jstonek.github.io/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.5"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.14/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
 
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
   
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
   
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'JSK\'s Blog',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><style>.avatar-img{animation:none!important;transition:transform .5s ease}.avatar-img:hover{animation:avatar_turn_around 2s linear infinite!important}</style><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
 
-<meta name="generator" content="Hexo 7.3.0"></head>
+  preloader.initLoading()
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder"></i><span> Categories</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JSK's Blog</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">JSK's Blog</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/JStoneK" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/05/12/Openkylin/" title="Openkylin">Openkylin</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-05-11T16:00:00.000Z" title="发表于 2026-05-12 00:00:00">2026-05-12</time></span></div><div class="content">建议做到某一步骤可以在VM中存一个快照，便于下次启动，目前发现如果配置好了，下次开机会出现bug无法使用！！！所以推荐使用快照，这样下次可以从快照启动 1、解决下载问题：1、更改可写权限1sudo ostree admin unlock  2、创建空白钩子12345sudo tee /usr/bin/ostree-pkgs-guard &lt;&lt;&#x27;EOF&#x27;#!/bin/shexit 0EOFsudo chmod +x /usr/bin/ostree-pkgs-guard  3、添加权限1sudo chmod +x /usr/bin/ostree-pkgs-guard  4、更新apt1sudo apt update  5、下载依赖1sudo apt install -y build-essential libncurses-dev bison flex libssl-dev libelf-dev qemu-system-x86 git wget  2、下载所需工具1、创建实验专属工作目录12mkdir -p ~/workspace/exp3cd ~/wo...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/06/24/MyFirstArticle/" title="MyFirstArticle">MyFirstArticle</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-23T16:00:00.000Z" title="发表于 2025-06-24 00:00:00">2025-06-24</time></span></div><div class="content">简介这是我的第一篇博客，这里做一个简单的记录。 –JSK </div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">JStoneK</div><div class="author-info-description">JSK 的博客</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JStoneK"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/JStoneK" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到 JSK 的博客</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/05/12/Openkylin/" title="Openkylin">Openkylin</a><time datetime="2026-05-11T16:00:00.000Z" title="发表于 2026-05-12 00:00:00">2026-05-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/24/MyFirstArticle/" title="MyFirstArticle">MyFirstArticle</a><time datetime="2025-06-23T16:00:00.000Z" title="发表于 2025-06-24 00:00:00">2025-06-24</time></div></div></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
       
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
   
-    <article id="post-Openkylin" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/05/12/Openkylin/" class="article-date">
-  <time class="dt-published" datetime="2026-05-11T16:00:00.000Z" itemprop="datePublished">2026-05-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/05/12/Openkylin/">Openkylin</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
+    <ul class="card-archive-list">
       
-        <p><strong>建议做到某一步骤可以在VM中存一个快照，便于下次启动，<u>目前发现如果配置好了，下次开机会出现bug无法使用！！！</u>所以推荐使用快照，这样下次可以从快照启动</strong></p>
-<h2 id="1、解决下载问题："><a href="#1、解决下载问题：" class="headerlink" title="1、解决下载问题："></a>1、解决下载问题：</h2><h4 id="1、更改可写权限"><a href="#1、更改可写权限" class="headerlink" title="1、更改可写权限"></a>1、更改可写权限</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ostree admin unlock</span><br></pre></td></tr></table></figure>
-
-<h4 id="2、创建空白钩子"><a href="#2、创建空白钩子" class="headerlink" title="2、创建空白钩子"></a>2、创建空白钩子</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo tee /usr/bin/ostree-pkgs-guard &lt;&lt;&#x27;EOF&#x27;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line">exit 0</span><br><span class="line">EOF</span><br><span class="line">sudo chmod +x /usr/bin/ostree-pkgs-guard</span><br></pre></td></tr></table></figure>
-
-<h4 id="3、添加权限"><a href="#3、添加权限" class="headerlink" title="3、添加权限"></a>3、添加权限</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x /usr/bin/ostree-pkgs-guard</span><br></pre></td></tr></table></figure>
-
-<h4 id="4、更新apt"><a href="#4、更新apt" class="headerlink" title="4、更新apt"></a>4、更新apt</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
-
-<h4 id="5、下载依赖"><a href="#5、下载依赖" class="headerlink" title="5、下载依赖"></a>5、下载依赖</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y build-essential libncurses-dev bison flex libssl-dev libelf-dev qemu-system-x86 git wget</span><br></pre></td></tr></table></figure>
-
-<h2 id="2、下载所需工具"><a href="#2、下载所需工具" class="headerlink" title="2、下载所需工具"></a>2、下载所需工具</h2><h4 id="1、创建实验专属工作目录"><a href="#1、创建实验专属工作目录" class="headerlink" title="1、创建实验专属工作目录"></a>1、创建实验专属工作目录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/workspace/exp3</span><br><span class="line">cd ~/workspace/exp3</span><br></pre></td></tr></table></figure>
-
-<h4 id="2、下载实验所需源码"><a href="#2、下载实验所需源码" class="headerlink" title="2、下载实验所需源码"></a>2、下载实验所需源码</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.48.tar.xz</span><br></pre></td></tr></table></figure>
-
-<h4 id="3、下载-Buildroot-根文件系统定制工具"><a href="#3、下载-Buildroot-根文件系统定制工具" class="headerlink" title="3、下载 Buildroot 根文件系统定制工具"></a>3、下载 Buildroot 根文件系统定制工具</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://buildroot.org/downloads/buildroot-2024.02.6.tar.xz</span><br></pre></td></tr></table></figure>
-
-<h4 id="4、解压两个源码包"><a href="#4、解压两个源码包" class="headerlink" title="4、解压两个源码包"></a>4、解压两个源码包</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">解压内核</span></span><br><span class="line">tar -xf linux-6.6.48.tar.xz</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">解压Buildroot</span></span><br><span class="line">tar -xf buildroot-2024.02.6.tar.xz</span><br></pre></td></tr></table></figure>
-
-<p>执行完后，目录下会有两个文件夹：<code>linux-6.6.48</code>、<code>buildroot-2024.02.6</code></p>
-<h2 id="3、Linux-内核裁剪"><a href="#3、Linux-内核裁剪" class="headerlink" title="3、Linux 内核裁剪"></a>3、Linux 内核裁剪</h2><h4 id="1、进入内核源码目录"><a href="#1、进入内核源码目录" class="headerlink" title="1、进入内核源码目录"></a>1、进入内核源码目录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ~/workspace/exp3/linux-6.6.48</span><br></pre></td></tr></table></figure>
-
-<h4 id="2、加载-x86-64-架构默认配置make-x86-64-defconfig"><a href="#2、加载-x86-64-架构默认配置make-x86-64-defconfig" class="headerlink" title="2、加载 x86_64 架构默认配置make x86_64_defconfig"></a>2、加载 x86_64 架构默认配置make x86_64_defconfig</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make x86_64_defconfig</span><br></pre></td></tr></table></figure>
-
-<p>✅ 成功标志：终端显示 <code>configuration written to .config</code></p>
-<p><img src="/images/image-20260510233107044.png" alt="image-20260510233107044"></p>
-<h4 id="3、打开内核图形化配置界面"><a href="#3、打开内核图形化配置界面" class="headerlink" title="3、打开内核图形化配置界面"></a>3、打开内核图形化配置界面</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
-
-<p><strong>File systems</strong> → 回车</p>
-<p><img src="/images/image-20260510233300387.png" alt="image-20260510233300387"></p>
-<p>找到 <code>The Extended 4 (ext4) filesystem</code> → 按 <strong>N</strong> 取消（空框<code>[]</code>）</p>
-<p><img src="/images/image-20260510233507243.png" alt="image-20260510233507243"></p>
-<p>找到 <code>Btrfs filesystem support</code> → 按 <strong>Y</strong> 勾选（实心<code>&lt;*&gt;</code>）</p>
-<p><img src="/images/image-20260510233606283.png" alt="image-20260510233606283"></p>
-<p>按 <strong>Tab</strong> 选 <code>&lt;Save&gt;</code> → 回车保存 → 回车确认，这里不保存也可以，因为下一步退出（连按ESC）会提示是否保存已修改的内容，选择yes回车即可</p>
-<p>连续按 <strong>ESC</strong> 退出配置界面</p>
-<h4 id="5、编译裁剪后的内核"><a href="#5、编译裁剪后的内核" class="headerlink" title="5、编译裁剪后的内核"></a>5、编译裁剪后的内核</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make bzImage -j 4</span><br></pre></td></tr></table></figure>
-
-<p>（<code>-j4</code>用 4 线程编译，适配虚拟机配置，等待 5-10 分钟完成，这里你有几个核就用几，例如你是8个核，用<code>make bzImage -j 8</code>）</p>
-<p>这里耐心等待即可</p>
-<p>✅ 成功标志：最后提示 <code>Kernel: arch/x86_64/boot/bzImage is ready</code></p>
-<p><img src="/images/image-20260510234400194.png" alt="image-20260510234400194"></p>
-<h2 id="4、定制-Btrfs-根文件系统"><a href="#4、定制-Btrfs-根文件系统" class="headerlink" title="4、定制 Btrfs 根文件系统"></a>4、定制 Btrfs 根文件系统</h2><h4 id="1、进入-Buildroot-目录"><a href="#1、进入-Buildroot-目录" class="headerlink" title="1、进入 Buildroot 目录"></a>1、进入 Buildroot 目录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ~/workspace/exp3/buildroot-2024.02.6</span><br></pre></td></tr></table></figure>
-
-<h4 id="2、打开配置界面"><a href="#2、打开配置界面" class="headerlink" title="2、打开配置界面"></a>2、打开配置界面</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
-
-<h4 id="3、关键配置"><a href="#3、关键配置" class="headerlink" title="3、关键配置"></a>3、关键配置</h4><h5 id="1、Target-options-→-Target-Architecture-选-x86-64，回车进去有具体选项"><a href="#1、Target-options-→-Target-Architecture-选-x86-64，回车进去有具体选项" class="headerlink" title="1、Target options → Target Architecture 选 x86_64，回车进去有具体选项"></a>1、<strong>Target options</strong> → <code>Target Architecture</code> 选 <code>x86_64</code>，回车进去有具体选项</h5><p><img src="/images/image-20260510235031437.png" alt="image-20260510235031437"></p>
-<p><strong>2、Filesystem images</strong> → 勾选 <code>btrfs root filesystem</code></p>
-<p><img src="/images/image-20260510235128564.png" alt="image-20260510235128564"></p>
-<p><strong>3、System configuration</strong> → <code>Default shell</code> 选 <code>bash</code></p>
-<p>若出现以下问题，则没有显示看不到bash</p>
-<p><img src="/images/image-20260510235243180.png" alt="image-20260510235243180"></p>
-<p>按<code>ESC</code>回到 Buildroot 的主菜单。</p>
-<p>用方向键选中 <strong>Target packages</strong>，按回车进入。</p>
-<p>找到 <strong>Shells</strong> 选项，按回车进入。</p>
-<p>找到 <code>bash</code> 选项，按<code>Y</code>键勾选（前面会出现<code>&lt;*&gt;</code>标记）。若没有无需管进行下一步</p>
-<p>在 Target packages 的最顶部，找到<code>Show packages that are also provided by busybox</code>，按<code>Y</code>勾选，这样能显示更多相关选项，避免后续配置看不到。</p>
-<p><img src="/images/image-20260510235513364.png" alt="image-20260510235513364"></p>
-<p><img src="/images/image-20260510235706715.png" alt="image-20260510235706715"></p>
-<p>此时我们可以看到了</p>
-<p><img src="/images/image-20260510235734425.png" alt="image-20260510235734425"></p>
-<h5 id="4、进入Text-editors-and-viewers"><a href="#4、进入Text-editors-and-viewers" class="headerlink" title="4、进入Text editors and viewers"></a>4、进入Text editors and viewers</h5><p><img src="/images/image-20260511161229546.png"></p>
-<p>更改vim</p>
-<h5 id="5、进入Networking"><a href="#5、进入Networking" class="headerlink" title="5、进入Networking"></a>5、进入Networking</h5><p><img src="/images/image-20260511161418042.png" alt="image-20260511161418042"></p>
-<p>选择openssh</p>
-<h5 id="6、更改下载源"><a href="#6、更改下载源" class="headerlink" title="6、更改下载源"></a>6、更改下载源</h5><p>选择download</p>
-<p><img src="/images/image-20260511160635153.png" alt="image-20260511160635153"></p>
-<p>选择第一个Primary download site</p>
-<p><img src="/images/image-20260511160713314.png" alt="image-20260511160713314"></p>
-<p>回车进入更换源</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.tuna.tsinghua.edu.cn/buildroot/</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/image-20260511160908498.png" alt="image-20260511160908498"></p>
-<p>图中是科大源，清华源是更建议更换的（直接复制给的命令即可）</p>
-<h5 id="7进入-Kernel-菜单（主菜单里的-Kernel，按回车进去）"><a href="#7进入-Kernel-菜单（主菜单里的-Kernel，按回车进去）" class="headerlink" title="7进入 Kernel 菜单（主菜单里的 Kernel，按回车进去）"></a>7进入 <code>Kernel</code> 菜单（主菜单里的 <code>Kernel</code>，按回车进去）</h5><ol>
-<li><p><strong>按空格勾选 <code>[/*] Linux Kernel</code></strong>（不勾上的话，后面的配置选项不会显示）</p>
-</li>
-<li><p>找到 <code>Kernel configuration</code> 下面的选项（默认是个下拉菜单），按回车进入</p>
-</li>
-<li><p>选择 </p>
-<p><code>Use the architecture default configuration</code></p>
-<blockquote>
-<p>这一步的意思是：让 Buildroot 自动使用 x86_64 架构的默认内核配置，不用你手动指定文件，彻底解决报错。</p>
-</blockquote>
-</li>
-</ol>
-<h5 id="8、保存配置-→-ESC-退出"><a href="#8、保存配置-→-ESC-退出" class="headerlink" title="8、保存配置 → ESC 退出"></a>8、保存配置 → ESC 退出</h5><p>一直按ESC，最后提示是否保存，yes即可</p>
-<h5 id="9、设置不更新最新linux版本"><a href="#9、设置不更新最新linux版本" class="headerlink" title="9、设置不更新最新linux版本"></a>9、设置不更新最新linux版本</h5><p>打开配置文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim .config</span><br></pre></td></tr></table></figure>
-
-<p>找到</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">BR2_LINUX_KERNEL_LATEST_VERSION</span>=y</span><br><span class="line"></span><br><span class="line"><span class="attr">BR2_KERNEL_HEADERS_LATEST</span>=y</span><br></pre></td></tr></table></figure>
-
-<p>分别改为</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># BR2_LINUX_KERNEL_LATEST_VERSION is not set</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># BR2_KERNEL_HEADERS_LATEST is not set</span></span><br></pre></td></tr></table></figure>
-
-<p>保存退出**：wq**</p>
-<h4 id="4、编译根文件系统"><a href="#4、编译根文件系统" class="headerlink" title="4、编译根文件系统"></a>4、编译根文件系统</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -j4</span><br></pre></td></tr></table></figure>
-
-<p>这一步可能时间有点长，耐心等待</p>
-<p>✅ 成功标志：生成文件 <code>output/images/rootfs.btrfs</code></p>
-<h2 id="5、QEMU-启动裁剪后的系统"><a href="#5、QEMU-启动裁剪后的系统" class="headerlink" title="5、QEMU 启动裁剪后的系统"></a>5、QEMU 启动裁剪后的系统</h2><h4 id="1、拷贝内核和文件系统到统一目录"><a href="#1、拷贝内核和文件系统到统一目录" class="headerlink" title="1、拷贝内核和文件系统到统一目录"></a>1、拷贝内核和文件系统到统一目录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~/workspace/exp3</span><br><span class="line">cp linux-6.6.48/arch/x86_64/boot/bzImage ./</span><br><span class="line">cp buildroot-2024.02.6/output/images/rootfs.btrfs ./</span><br></pre></td></tr></table></figure>
-
-<h4 id="2、启动虚拟机（直接复制整条命令）"><a href="#2、启动虚拟机（直接复制整条命令）" class="headerlink" title="2、启动虚拟机（直接复制整条命令）"></a>2、启动虚拟机（直接复制整条命令）</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-x86_64 /</span><br><span class="line">-m 2048 /</span><br><span class="line">-smp 2 /</span><br><span class="line">-kernel ./bzImage /</span><br><span class="line">-drive file=./rootfs.btrfs,if=virtio,format=raw /</span><br><span class="line">-append &quot;console=ttyS0 root=/dev/vda rw init=/sbin/init&quot; /</span><br><span class="line">-virtfs local,path=/,mount_tag=host0,security_model=passthrough /</span><br><span class="line">-device edu /</span><br><span class="line">-nographic</span><br></pre></td></tr></table></figure>
-
-<p>✅ 成功标志：进入命令行，系统正常启动！</p>
-<p>✅ 关键参数说明：</p>
-<ul>
-<li><code>-device edu</code>：挂载实验要求的 edu 虚拟设备</li>
-<li><code>-virtfs</code>：配置 9p 文件共享，用于宿主机和虚拟机传输文件</li>
-<li><code>-nographic</code>：无图形模式，终端直接作为虚拟机控制台</li>
-</ul>
-<h2 id="6、挂载-9p-共享目录（宿主机和虚拟机文件互通）-实验3"><a href="#6、挂载-9p-共享目录（宿主机和虚拟机文件互通）-实验3" class="headerlink" title="6、挂载 9p 共享目录（宿主机和虚拟机文件互通）&#x2F;实验3"></a>6、挂载 9p 共享目录（宿主机和虚拟机文件互通）&#x2F;实验3</h2><h4 id="0、先在宿主机编译好文件"><a href="#0、先在宿主机编译好文件" class="headerlink" title="0、先在宿主机编译好文件"></a>0、先在宿主机编译好文件</h4><p>把写好的驱动代码的Makefile修改为qemu虚拟机的linux内核版本编译，这里让大模型写一个就好，正常make编译即可</p>
-<h4 id="1、在-QEMU-虚拟机终端内执行"><a href="#1、在-QEMU-虚拟机终端内执行" class="headerlink" title="1、在 QEMU 虚拟机终端内执行"></a>1、在 QEMU 虚拟机终端内执行</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /mnt/hostshare</span><br><span class="line">mount -t 9p -o trans=virtio hostshare /mnt/hostshare</span><br></pre></td></tr></table></figure>
-
-<p>✅ 挂载成功后，<code>/mnt/host</code> 可以访问宿主机的所有文件，用于拷贝 Edu 驱动源码</p>
-<h4 id="2、复制驱动和测试程序到虚拟机当前目录"><a href="#2、复制驱动和测试程序到虚拟机当前目录" class="headerlink" title="2、复制驱动和测试程序到虚拟机当前目录"></a>2、复制驱动和测试程序到虚拟机当前目录</h4><p>1、把宿主机上的 Edu 驱动文件夹，这里需要把.ko和要执行的文件（共edu_dev.ko和user_demo两个，可能名称不一样）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp /mnt/hostshare/workspace/exp3/edu_drv/edu_dev.ko .</span><br><span class="line">cp /mnt/hostshare/workspace/exp3/edu_drv/user_demo .</span><br></pre></td></tr></table></figure>
-
-<h4 id="3、加载内核"><a href="#3、加载内核" class="headerlink" title="3、加载内核"></a>3、加载内核</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insmod edu_dev.ko</span><br></pre></td></tr></table></figure>
-
-<h4 id="4、创建设备节点（主设备号-200，次设备号-0）"><a href="#4、创建设备节点（主设备号-200，次设备号-0）" class="headerlink" title="4、创建设备节点（主设备号 200，次设备号 0）"></a>4、创建设备节点（主设备号 200，次设备号 0）</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mknod /dev/edu c 200 0</span><br><span class="line">chmod 777 /dev/edu</span><br></pre></td></tr></table></figure>
-
-<h4 id="5、给用户态程序添加执行权限并运行："><a href="#5、给用户态程序添加执行权限并运行：" class="headerlink" title="5、给用户态程序添加执行权限并运行："></a>5、给用户态程序添加执行权限并运行：</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod +x user_demo</span><br><span class="line">./user_demo</span><br></pre></td></tr></table></figure>
-
-<h4 id="6、查看并修改-kernel-shmmax-内核参数"><a href="#6、查看并修改-kernel-shmmax-内核参数" class="headerlink" title="6、查看并修改 kernel.shmmax 内核参数"></a>6、查看并修改 kernel.shmmax 内核参数</h4><p>1、查看当前参数值：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl kernel.shmmax</span><br></pre></td></tr></table></figure>
-
-<p>2、临时修改参数（示例设为 1G）：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w kernel.shmmax=1073741824</span><br></pre></td></tr></table></figure>
-
-<p>3、验证修改是否生效：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl kernel.shmmax</span><br></pre></td></tr></table></figure>
-
-<p>✅ 成功标志：输出修改后的数值，说明内核参数修改成功</p>
-<h6 id="退出Ctrl-A-松开，按x，即可退出"><a href="#退出Ctrl-A-松开，按x，即可退出" class="headerlink" title="退出Ctrl+A,松开，按x，即可退出"></a>退出Ctrl+A,松开，按x，即可退出</h6><p><strong>–<em>JSK</em></strong></p>
-
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/05/">
+            <span class="card-archive-list-date">
+              五月 2026
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2026/05/12/Openkylin/" data-id="cmr66ikdb000160vs415garc3" data-title="Openkylin" class="article-share-link"><span class="fa fa-share">Share</span></a>
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/06/">
+            <span class="card-archive-list-date">
+              六月 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
       
-      
-      
-    </footer>
-  </div>
-  
-</article>
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">2</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2025-06-24T00:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-07-05T18:09:26.008Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By JStoneK</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.5</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.5"></script><script src="/js/main.js?v=5.5.5"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.14/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js@3.0.0/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  },
+  processSubtitle: (content, extraContents = []) => {
+    if (true) {
+      const sub = ["Stones, Codes, and Life","保持热爱，奔赴山海"].slice()
 
+      if (extraContents.length > 0) {
+        sub.unshift(...extraContents)
+      }
 
+      if (typeof content === 'string') {
+        sub.unshift(content)
+      } else if (Array.isArray(content)) {
+        sub.unshift(...content)
+      }
 
-  
-    <article id="post-MyFirstArticle" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/06/24/MyFirstArticle/" class="article-date">
-  <time class="dt-published" datetime="2025-06-23T16:00:00.000Z" itemprop="datePublished">2025-06-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/06/24/MyFirstArticle/">MyFirstArticle</a>
-    </h1>
-  
+      sub.length > 0 && typedJSFn.init(sub)
+    } else {
+      document.getElementById('subtitle').textContent = typeof content === 'string' ? content :
+        (Array.isArray(content) && content.length > 0 ? content[0] : '')
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  btf.getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js')
+    .then(() => {
+      jinrishici.load(result => {
+        if (result && result.data && result.data.content) {
+          typedJSFn.processSubtitle(result.data.content)
+        } else {
+          throw new Error('Failed to parse the return value of Jinrishici API')
+        }
+      })
+    })
+    .catch(err => {
+      console.error('Failed to get the Jinrishici API:', err)
+      typedJSFn.processSubtitle(2)
+    })
+}
+typedJSFn.run(subtitleType)
+</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>这是我的第一篇博客，这里做一个简单的记录。</p>
-<p><em><strong>–JSK</strong></em></p>
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/06/24/MyFirstArticle/" data-id="cmr66ikd2000060vsfcu3gjm6" data-title="MyFirstArticle" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
 
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
 
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
 
-  
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
 
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
 
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/05/">May 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/06/">June 2025</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2026/05/12/Openkylin/">Openkylin</a>
-          </li>
-        
-          <li>
-            <a href="/2025/06/24/MyFirstArticle/">MyFirstArticle</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2026 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      false
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.5"></script></div></div></body></html>
