@@ -264,7 +264,10 @@ window.addEventListener('load', () => {
   // Cache frequently used elements
   const elements = {
     get pagination () { return document.getElementById('local-search-pagination') },
-    get paginationList () { return document.querySelector('#local-search-pagination .ais-Pagination-list') }
+    get paginationList () { return document.querySelector('#local-search-pagination .ais-Pagination-list') },
+    get hrTop () { return document.querySelector('.search-hr-top') },
+    get hrBottom () { return document.querySelector('.search-hr-bottom') },
+    get hintText () { return document.querySelector('.search-hint-text') }
   }
 
   // Show/hide search results area
@@ -273,6 +276,20 @@ window.addEventListener('load', () => {
       elements.pagination.style.display = hasResults ? '' : 'none'
     } else {
       elements.pagination.style.display = 'none'
+    }
+  }
+
+  // Show/hide the gradient hr line
+  const toggleHrVisibility = show => {
+    if (elements.hrTop) {
+      elements.hrTop.classList.toggle('show', show)
+    }
+    if (elements.hrBottom) {
+      elements.hrBottom.classList.toggle('show', show)
+    }
+    // Hide hint text when searching
+    if (elements.hintText) {
+      elements.hintText.classList.toggle('hidden', show)
     }
   }
 
@@ -308,7 +325,7 @@ window.addEventListener('load', () => {
     // Update stats
     const displayCount = enablePagination ? currentResultItems.length : resultItems.length
     const stats = languages.hits_stats.replace(/\$\{hits}/, displayCount)
-    statsItem.innerHTML = `<hr><div class="search-result-stats">${stats}</div>`
+    statsItem.innerHTML = `<div class="search-result-stats">${stats}</div>`
 
     // Handle pagination
     if (enablePagination) {
@@ -318,6 +335,7 @@ window.addEventListener('load', () => {
 
     const hasResults = resultItems.length > 0
     toggleResultsVisibility(hasResults)
+    toggleHrVisibility(true)
 
     window.pjax && window.pjax.refresh(container)
   }
@@ -418,6 +436,7 @@ window.addEventListener('load', () => {
     container.textContent = ''
     statsItem.textContent = ''
     toggleResultsVisibility(false)
+    toggleHrVisibility(false)
     if (enablePagination) {
       currentResultItems = []
       currentPage = 0
@@ -433,6 +452,7 @@ window.addEventListener('load', () => {
     statsDiv.textContent = languages.hits_empty.replace(/\$\{query}/, searchText)
     statsItem.innerHTML = statsDiv.outerHTML
     toggleResultsVisibility(false)
+    toggleHrVisibility(true)
     if (enablePagination) {
       currentResultItems = []
       currentPage = 0

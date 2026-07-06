@@ -213,8 +213,7 @@ template {
 #post .post-copyright:before,
 #post #post-outdate-notice:before,
 .toggle > .toggle-button::before,
-.note:not(.no-icon)::before,
-.search-dialog hr:before {
+.note:not(.no-icon)::before {
   display: inline-block;
   font-weight: 600;
   font-family: 'Font Awesome 7 Free', 'Font Awesome 6 Free';
@@ -325,19 +324,16 @@ template {
   -ms-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
 }
-.custom-hr,
-.search-dialog hr {
+.custom-hr {
   position: relative;
   margin: 40px auto;
   border: 2px dashed var(--hr-border);
   width: calc(100% - 4px);
 }
-.custom-hr:hover:before,
-.search-dialog hr:hover:before {
+.custom-hr:hover:before {
   left: calc(95% - 20px);
 }
-.custom-hr:before,
-.search-dialog hr:before {
+.custom-hr:before {
   position: absolute;
   top: -10px;
   left: 5%;
@@ -7579,9 +7575,33 @@ blockquote.pullquote.right {
   margin-left: -300px;
   padding: 20px;
   width: 600px;
-  background: var(--search-bg);
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  -webkit-box-shadow: 0 8px 32px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.3);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.3);
+  border: 1px solid rgba(255,255,255,0.25);
   --search-height: 100vh;
-  border-radius: 8px;
+  border-radius: 16px;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.search-dialog::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background: -webkit-linear-gradient(315deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.02) 100%);
+  background: -moz-linear-gradient(315deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.02) 100%);
+  background: -o-linear-gradient(315deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.02) 100%);
+  background: -ms-linear-gradient(315deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.02) 100%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.02) 100%);
+  content: '';
 }
 @media screen and (max-width: 768px) {
   .search-dialog {
@@ -7591,6 +7611,8 @@ blockquote.pullquote.right {
     width: 100%;
     height: 100%;
     border-radius: 0;
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
   }
 }
 .search-dialog .search-nav {
@@ -7667,12 +7689,33 @@ blockquote.pullquote.right {
 .search-dialog #algolia-search-input .ais-SearchBox-input::placeholder {
   color: var(--text-color);
 }
+.search-dialog .search-hint-text {
+  margin: 10px 0 0;
+  text-align: center;
+  color: #000;
+  font-size: 1.1em;
+  opacity: 0.6;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  filter: alpha(opacity=60);
+  -webkit-transition: opacity 0.3s ease;
+  -moz-transition: opacity 0.3s ease;
+  -o-transition: opacity 0.3s ease;
+  -ms-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+}
+.search-dialog .search-hint-text.hidden {
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+}
 .search-dialog .search-result-list,
 .search-dialog .ais-Hits-list {
   overflow-y: overlay;
   margin: 0 -20px;
   padding: 0 22px;
   max-height: calc(80vh - 220px);
+  list-style: none;
+  counter-reset: search-result;
 }
 .search-dialog .search-result-list .local-search-hit-item,
 .search-dialog .ais-Hits-list .local-search-hit-item,
@@ -7697,6 +7740,23 @@ blockquote.pullquote.right {
   -o-transition: all 0.2s ease-in-out;
   -ms-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
+  list-style: none;
+  counter-increment: search-result;
+}
+.search-dialog .search-result-list .local-search-hit-item::before,
+.search-dialog .ais-Hits-list .local-search-hit-item::before,
+.search-dialog .search-result-list .ais-Hits-item::before,
+.search-dialog .ais-Hits-list .ais-Hits-item::before {
+  content: counter(search-result) ".";
+  display: inline-block;
+  min-width: 24px;
+  margin-right: 8px;
+  color: #49b1f5;
+  font-weight: 600;
+  font-size: 0.9em;
+  text-align: right;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
 }
 .search-dialog .search-result-list .local-search-hit-item:hover,
 .search-dialog .ais-Hits-list .local-search-hit-item:hover,
@@ -7708,50 +7768,12 @@ blockquote.pullquote.right {
   -ms-transform: translateY(-1px);
   transform: translateY(-1px);
 }
-.search-dialog .search-result-list .local-search-hit-item:not([value])::before,
-.search-dialog .ais-Hits-list .local-search-hit-item:not([value])::before,
-.search-dialog .search-result-list .ais-Hits-item:not([value])::before,
-.search-dialog .ais-Hits-list .ais-Hits-item:not([value])::before {
-  display: none;
-}
-.search-dialog .search-result-list .local-search-hit-item[value]::before,
-.search-dialog .ais-Hits-list .local-search-hit-item[value]::before,
-.search-dialog .search-result-list .ais-Hits-item[value]::before,
-.search-dialog .ais-Hits-list .ais-Hits-item[value]::before {
-  display: -webkit-inline-box;
-  display: -moz-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-box;
-  display: inline-flex;
-  -webkit-flex-shrink: 0;
-  flex-shrink: 0;
-  -webkit-box-pack: center;
-  -moz-box-pack: center;
-  -o-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -moz-box-align: center;
-  -o-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-  margin-right: 6px;
-  margin-top: 3px;
-  min-width: 24px;
-  color: #49b1f5;
-  content: attr(value) '.';
-  font-weight: bold;
-  font-style: italic;
-  font-size: 0.9em;
-}
 .search-dialog .search-result-list .local-search-hit-item::marker,
 .search-dialog .ais-Hits-list .local-search-hit-item::marker,
 .search-dialog .search-result-list .ais-Hits-item::marker,
 .search-dialog .ais-Hits-list .ais-Hits-item::marker {
   content: none;
+  display: none;
 }
 .search-dialog .search-result-list .local-search-hit-item a,
 .search-dialog .ais-Hits-list .local-search-hit-item a,
@@ -7764,7 +7786,7 @@ blockquote.pullquote.right {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  color: var(--search-a-color);
+  color: #000;
 }
 .search-dialog .search-result-list .local-search-hit-item a:hover,
 .search-dialog .ais-Hits-list .local-search-hit-item a:hover,
@@ -7781,6 +7803,7 @@ blockquote.pullquote.right {
 .search-dialog .search-result-list .ais-Hits-item .algolia-hits-item-title,
 .search-dialog .ais-Hits-list .ais-Hits-item .algolia-hits-item-title {
   font-weight: 600;
+  color: #000;
 }
 .search-dialog .search-result-list .local-search-hit-item .search-result,
 .search-dialog .ais-Hits-list .local-search-hit-item .search-result,
@@ -7793,6 +7816,7 @@ blockquote.pullquote.right {
   margin: 0 0 8px;
   word-break: break-all;
   font-size: 0.9em;
+  color: #000;
 }
 .search-dialog .ais-Pagination {
   margin: 15px 0 0;
@@ -7916,8 +7940,89 @@ blockquote.pullquote.right {
     gap: 4px;
   }
 }
-.search-dialog hr {
+.search-dialog hr.search-hr-top,
+.search-dialog hr.search-hr-bottom,
+.search-dialog hr.search-hr-bottom-2 {
   margin: 15px auto;
+  border: none;
+  height: 2px;
+  background: -webkit-linear-gradient(0deg, transparent 0%, rgba(73,177,245,0.05) 10%, rgba(73,177,245,0.3) 30%, rgba(73,177,245,0.5) 50%, rgba(73,177,245,0.3) 70%, rgba(73,177,245,0.05) 90%, transparent 100%);
+  background: -moz-linear-gradient(0deg, transparent 0%, rgba(73,177,245,0.05) 10%, rgba(73,177,245,0.3) 30%, rgba(73,177,245,0.5) 50%, rgba(73,177,245,0.3) 70%, rgba(73,177,245,0.05) 90%, transparent 100%);
+  background: -o-linear-gradient(0deg, transparent 0%, rgba(73,177,245,0.05) 10%, rgba(73,177,245,0.3) 30%, rgba(73,177,245,0.5) 50%, rgba(73,177,245,0.3) 70%, rgba(73,177,245,0.05) 90%, transparent 100%);
+  background: -ms-linear-gradient(0deg, transparent 0%, rgba(73,177,245,0.05) 10%, rgba(73,177,245,0.3) 30%, rgba(73,177,245,0.5) 50%, rgba(73,177,245,0.3) 70%, rgba(73,177,245,0.05) 90%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(73,177,245,0.05) 10%, rgba(73,177,245,0.3) 30%, rgba(73,177,245,0.5) 50%, rgba(73,177,245,0.3) 70%, rgba(73,177,245,0.05) 90%, transparent 100%);
+  background-size: 200% 100%;
+  -webkit-animation: searchHrFlow 4s ease-in-out infinite;
+  -moz-animation: searchHrFlow 4s ease-in-out infinite;
+  -o-animation: searchHrFlow 4s ease-in-out infinite;
+  -ms-animation: searchHrFlow 4s ease-in-out infinite;
+  animation: searchHrFlow 4s ease-in-out infinite;
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  -webkit-transition: opacity 0.5s ease;
+  -moz-transition: opacity 0.5s ease;
+  -o-transition: opacity 0.5s ease;
+  -ms-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+}
+.search-dialog hr.search-hr-top.show,
+.search-dialog hr.search-hr-bottom.show,
+.search-dialog hr.search-hr-bottom-2.show {
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+}
+.search-dialog hr.search-hr-bottom {
+  -webkit-animation-direction: reverse;
+  -moz-animation-direction: reverse;
+  -o-animation-direction: reverse;
+  -ms-animation-direction: reverse;
+  animation-direction: reverse;
+}
+@-moz-keyframes searchHrFlow {
+  0% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+@-webkit-keyframes searchHrFlow {
+  0% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+@-o-keyframes searchHrFlow {
+  0% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+@keyframes searchHrFlow {
+  0% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
 }
 #search-mask {
   position: fixed;
@@ -7927,12 +8032,14 @@ blockquote.pullquote.right {
   left: 0;
   z-index: 1000;
   display: none;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
 }
 .search-result-stats,
 .ais-Stats-text {
   margin: 15px 0 0;
-  color: var(--text-color);
+  color: #000;
   text-align: center;
   font-size: 0.9em;
 }
@@ -7989,6 +8096,35 @@ blockquote.pullquote.right {
 }
 #local-search #loading-database ~ * {
   visibility: hidden;
+}
+[data-theme='dark'] .search-dialog {
+  background: rgba(30,30,30,0.25);
+  border-color: rgba(255,255,255,0.08);
+  -webkit-box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+[data-theme='dark'] .search-dialog::before {
+  background: -webkit-linear-gradient(315deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.01) 100%);
+  background: -moz-linear-gradient(315deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.01) 100%);
+  background: -o-linear-gradient(315deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.01) 100%);
+  background: -ms-linear-gradient(315deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.01) 100%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.01) 100%);
+}
+[data-theme='dark'] .search-dialog .local-search-hit-item a,
+[data-theme='dark'] .search-dialog .ais-Hits-item a {
+  color: #fff;
+}
+[data-theme='dark'] .search-dialog .local-search-hit-item a:hover,
+[data-theme='dark'] .search-dialog .ais-Hits-item a:hover {
+  color: #49b1f5;
+}
+[data-theme='dark'] .search-dialog .search-result-title,
+[data-theme='dark'] .search-dialog .algolia-hits-item-title,
+[data-theme='dark'] .search-dialog .search-result,
+[data-theme='dark'] .search-dialog .algolia-hit-item-content,
+[data-theme='dark'] .search-dialog .search-result-stats,
+[data-theme='dark'] .search-dialog .ais-Stats-text {
+  color: #fff;
 }
 @-moz-keyframes spin {
   to {

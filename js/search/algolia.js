@@ -251,12 +251,29 @@ window.addEventListener('load', () => {
     get pagination () { return document.getElementById('algolia-pagination') },
     get paginationList () { return document.querySelector('#algolia-pagination .ais-Pagination-list') },
     get stats () { return document.querySelector('#algolia-info .ais-Stats-text') },
+    get hrTop () { return document.querySelector('.search-hr-top') },
+    get hrBottom () { return document.querySelector('.search-hr-bottom') },
+    get hintText () { return document.querySelector('.search-hint-text') }
   }
 
   // Show/hide search results area
   const toggleResultsVisibility = hasResults => {
     elements.pagination.style.display = hasResults ? '' : 'none'
     elements.stats.style.display = hasResults ? '' : 'none'
+  }
+
+  // Show/hide the gradient hr line
+  const toggleHrVisibility = show => {
+    if (elements.hrTop) {
+      elements.hrTop.classList.toggle('show', show)
+    }
+    if (elements.hrBottom) {
+      elements.hrBottom.classList.toggle('show', show)
+    }
+    // Hide hint text when searching
+    if (elements.hintText) {
+      elements.hintText.classList.toggle('hidden', show)
+    }
   }
 
   // Render search results
@@ -432,10 +449,12 @@ window.addEventListener('load', () => {
       const stats = languages.hits_stats
         .replace(/\$\{hits}/, nbHits)
         .replace(/\$\{time}/, processingTimeMS)
-      elements.stats.innerHTML = `<hr>${stats}`
+      elements.stats.innerHTML = stats
       elements.stats.style.display = ''
+      toggleHrVisibility(true)
     } else {
       elements.stats.style.display = 'none'
+      toggleHrVisibility(false)
     }
   }
 
