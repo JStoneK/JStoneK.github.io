@@ -7941,8 +7941,7 @@ blockquote.pullquote.right {
   }
 }
 .search-dialog hr.search-hr-top,
-.search-dialog hr.search-hr-bottom,
-.search-dialog hr.search-hr-bottom-2 {
+.search-dialog hr.search-hr-bottom {
   margin: 15px auto;
   border: none;
   height: 2px;
@@ -7967,8 +7966,7 @@ blockquote.pullquote.right {
   transition: opacity 0.5s ease;
 }
 .search-dialog hr.search-hr-top.show,
-.search-dialog hr.search-hr-bottom.show,
-.search-dialog hr.search-hr-bottom-2.show {
+.search-dialog hr.search-hr-bottom.show {
   opacity: 1;
   -ms-filter: none;
   filter: none;
