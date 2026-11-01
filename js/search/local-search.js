@@ -579,7 +579,7 @@ window.addEventListener('load', () => {
   searchFnOnce()
 
   // pjax
-  window.addEventListener('pjax:complete', () => {
+  document.addEventListener('pjax:complete', () => {
     !btf.isHidden($searchMask) && closeSearch()
     localSearch.highlightSearchWords(document.getElementById('article-container'))
     searchClickFn()

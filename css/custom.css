@@ -1,0 +1,570 @@
+/*
+ * Site-level Butterfly customizations.
+ * Keep theme source files untouched so theme upgrades remain straightforward.
+ */
+
+:root {
+  --liquid-x: 50%;
+  --liquid-y: 28%;
+  --liquid-blur: 28px;
+  --glass-bg: radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(255, 255, 255, 0.5), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.12) 48%, rgba(132, 205, 255, 0.2));
+  --glass-bg-hover: radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(255, 255, 255, 0.68), transparent 38%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0.16) 48%, rgba(112, 196, 255, 0.26));
+  --glass-border: rgba(255, 255, 255, 0.52);
+  --glass-shadow: 0 18px 48px rgba(20, 45, 85, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.18);
+  --glass-shadow-hover: 0 26px 68px rgba(20, 55, 100, 0.24),
+    0 0 36px rgba(73, 177, 245, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.22);
+  --accent-blue: #49b1f5;
+  --accent-cyan: #00c4b6;
+  --accent-orange: #ff7242;
+  --calendar-level-0: rgba(255, 255, 255, 0.72);
+  --calendar-level-1: #9be9a8;
+  --calendar-level-2: #40c463;
+  --calendar-level-3: #30a14e;
+  --calendar-level-4: #216e39;
+}
+
+[data-theme='dark'] {
+  --glass-bg: radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(112, 179, 255, 0.2), transparent 34%),
+    linear-gradient(135deg, rgba(35, 42, 58, 0.68), rgba(12, 16, 25, 0.5) 52%, rgba(66, 43, 89, 0.42));
+  --glass-bg-hover: radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(120, 196, 255, 0.3), transparent 38%),
+    linear-gradient(135deg, rgba(43, 52, 72, 0.76), rgba(15, 20, 31, 0.58) 52%, rgba(75, 48, 101, 0.48));
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 20px 56px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+  --glass-shadow-hover: 0 28px 72px rgba(0, 0, 0, 0.52),
+    0 0 36px rgba(73, 177, 245, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  --calendar-level-0: rgba(255, 255, 255, 0.12);
+}
+
+body {
+  background: url('/images/backgroundv2.jpeg') center / cover fixed !important;
+}
+
+#page-header,
+#footer {
+  background: transparent !important;
+}
+
+.avatar-img {
+  animation: none !important;
+  transition: transform 0.5s ease;
+}
+
+.avatar-img:hover {
+  animation: avatar_turn_around 2s linear infinite !important;
+}
+
+/*
+ * Liquid glass layer. custom.js adds this class to the primary Butterfly cards.
+ * The highlight follows the pointer without changing the document layout.
+ */
+.liquid-glass {
+  position: relative;
+  isolation: isolate;
+  border-color: var(--glass-border) !important;
+  background: var(--glass-bg) !important;
+  box-shadow: var(--glass-shadow) !important;
+  backdrop-filter: blur(var(--liquid-blur)) saturate(190%) contrast(108%);
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  -webkit-backdrop-filter: blur(var(--liquid-blur)) saturate(190%) contrast(108%);
+}
+
+.liquid-glass::before {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.12) 32%,
+    rgba(79, 179, 255, 0.42) 68%, rgba(255, 153, 226, 0.38));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+}
+
+.liquid-glass::after {
+  position: absolute;
+  z-index: 0;
+  inset: 1px;
+  border-radius: inherit;
+  content: '';
+  opacity: 0.32;
+  pointer-events: none;
+  background: radial-gradient(220px circle at var(--liquid-x) var(--liquid-y),
+    rgba(255, 255, 255, 0.9), rgba(123, 211, 255, 0.24) 30%, transparent 70%);
+  mix-blend-mode: soft-light;
+  transition: opacity 0.35s ease;
+}
+
+.liquid-glass:hover {
+  border-color: rgba(255, 255, 255, 0.72) !important;
+  background: var(--glass-bg-hover) !important;
+  box-shadow: var(--glass-shadow-hover) !important;
+}
+
+.liquid-glass:hover::after {
+  opacity: 0.58;
+}
+
+/* Search is a fixed modal; do not let the shared glass positioning move it into document flow. */
+.search-dialog.liquid-glass {
+  position: fixed;
+}
+
+[data-theme='dark'] .liquid-glass:hover {
+  border-color: rgba(255, 255, 255, 0.32) !important;
+  box-shadow: var(--glass-shadow-hover) !important;
+}
+
+/* Home page cards */
+.recent-post-items {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 16px !important;
+}
+
+.recent-post-items > .recent-post-item {
+  position: relative;
+  width: calc(50% - 8px) !important;
+  margin: 0 !important;
+  overflow: hidden;
+  float: none !important;
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  background: var(--glass-bg) !important;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(var(--liquid-blur)) saturate(190%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.4s ease, background 0.4s ease !important;
+  -webkit-backdrop-filter: blur(var(--liquid-blur)) saturate(190%);
+}
+
+.recent-post-items > .recent-post-item:hover {
+  border-color: rgba(73, 177, 245, 0.4) !important;
+  background: var(--glass-bg-hover) !important;
+  box-shadow: var(--glass-shadow-hover) !important;
+  transform: translateY(-10px) scale(1.02) !important;
+}
+
+/* GitHub calendar: custom.js creates this element on the home page only. */
+.github-calendar-card {
+  display: block !important;
+  box-sizing: border-box;
+  width: 100% !important;
+  min-height: 180px;
+  margin-bottom: 24px !important;
+  padding: 24px 28px !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 20px;
+  background: var(--glass-bg) !important;
+  box-shadow: var(--glass-shadow) !important;
+  backdrop-filter: blur(var(--liquid-blur)) saturate(190%);
+  -webkit-backdrop-filter: blur(var(--liquid-blur)) saturate(190%);
+}
+
+.contribution-calendar-viewport {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.contribution-calendar {
+  width: max-content;
+  min-width: 100%;
+  color: var(--font-color);
+}
+
+.contribution-months {
+  display: grid;
+  grid-template-columns: repeat(var(--calendar-weeks), 12px);
+  gap: 3px;
+  min-width: max-content;
+  margin: 0 0 8px 28px;
+  color: var(--font-color);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.contribution-months span {
+  white-space: nowrap;
+}
+
+.contribution-grid-body {
+  display: flex;
+  align-items: flex-start;
+}
+
+.contribution-weekdays {
+  display: grid;
+  flex: 0 0 28px;
+  grid-template-rows: repeat(7, 12px);
+  gap: 3px;
+  color: var(--font-color);
+  font-size: 11px;
+  line-height: 12px;
+}
+
+.contribution-weeks {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(var(--calendar-weeks), 12px);
+  grid-template-rows: repeat(7, 12px);
+  gap: 3px;
+}
+
+.contribution-day {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 12px;
+  height: 12px;
+  border: 1px solid rgba(27, 31, 35, 0.06);
+  border-radius: 2px;
+  background: var(--calendar-level-0);
+}
+
+.contribution-day[data-level='1'] {
+  background: var(--calendar-level-1);
+}
+
+.contribution-day[data-level='2'] {
+  background: var(--calendar-level-2);
+}
+
+.contribution-day[data-level='3'] {
+  background: var(--calendar-level-3);
+}
+
+.contribution-day[data-level='4'] {
+  background: var(--calendar-level-4);
+}
+
+.contribution-day.is-outside-range {
+  visibility: hidden;
+}
+
+.contribution-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  margin-top: 10px;
+  color: var(--font-color);
+  font-size: 12px;
+}
+
+.contribution-legend .contribution-day {
+  width: 11px;
+  height: 11px;
+}
+
+.github-calendar-card svg {
+  max-width: 100%;
+  border-radius: 12px !important;
+}
+
+.github-calendar-card .contrib-column {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  padding: 16px 8px !important;
+  text-align: center !important;
+}
+
+.github-calendar-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  margin-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='dark'] .github-calendar-stats {
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+.github-calendar-card .github-calendar-stats > .contrib-column {
+  box-sizing: border-box;
+  width: auto !important;
+  min-width: 0;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='dark'] .github-calendar-card .github-calendar-stats > .contrib-column {
+  border-left-color: rgba(255, 255, 255, 0.12);
+}
+
+.github-calendar-card .github-calendar-stats > .contrib-column:first-child {
+  border-left: 0;
+}
+
+.github-calendar-card .contrib-number {
+  font-size: 1.6em !important;
+  font-weight: 700 !important;
+  color: var(--accent-blue);
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.github-calendar-card .contrib-table {
+  display: flex !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  justify-content: center !important;
+  overflow-x: auto;
+}
+
+.github-calendar-card table {
+  margin: 0 auto !important;
+}
+
+.github-calendar-card .gha-header-link,
+.github-calendar-card .show-on-focus,
+.github-calendar-card a[data-pjax-state='anchor'],
+.github-calendar-card .contrib-footer,
+.github-calendar-card .gha-footer,
+.github-calendar-card > h2,
+.github-calendar-card > .sr-only {
+  display: none !important;
+}
+
+.github-calendar-card__status {
+  margin: 48px 0;
+  color: var(--font-color);
+  text-align: center;
+}
+
+/* Archive, friend-link and aside cards */
+.layout > div:first-child:not(.nc),
+#article-container .article-sort-item,
+.flink-list-item,
+#aside-content .card-widget {
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--liquid-blur)) saturate(190%);
+  -webkit-backdrop-filter: blur(var(--liquid-blur)) saturate(190%);
+}
+
+#article-container .article-sort-item,
+.flink-list-item {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.4s ease, background 0.4s ease !important;
+}
+
+#article-container .article-sort-item:hover,
+.flink-list-item:hover {
+  border-color: rgba(73, 177, 245, 0.35) !important;
+  background: var(--glass-bg-hover) !important;
+  box-shadow: var(--glass-shadow-hover) !important;
+  transform: translateY(-8px) scale(1.01) !important;
+}
+
+#aside-content .card-widget {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.4s ease, background 0.4s ease !important;
+}
+
+#aside-content .card-widget:hover {
+  background: var(--glass-bg-hover) !important;
+  box-shadow: var(--glass-shadow-hover) !important;
+  transform: translateY(-6px) !important;
+}
+
+#site-title,
+.site-name {
+  color: var(--accent-blue);
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan), var(--accent-orange));
+  background-size: 200% auto;
+  background-clip: text;
+  animation: gradient-shift 3s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0 center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+/* GitHub-style Markdown callouts, added by custom.js. */
+#article-container blockquote.callout {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-left: 4px solid var(--callout-color, var(--accent-blue));
+  border-radius: 8px;
+  background: rgba(73, 177, 245, 0.1);
+  background: color-mix(in srgb, var(--callout-color, var(--accent-blue)) 10%, transparent);
+}
+
+#article-container blockquote.callout .callout-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.4rem;
+  color: var(--callout-color, var(--accent-blue));
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+#article-container blockquote.callout > :last-child {
+  margin-bottom: 0;
+}
+
+#article-container blockquote.callout-note,
+#article-container blockquote.callout-important {
+  --callout-color: #0969da;
+}
+
+#article-container blockquote.callout-tip {
+  --callout-color: #1a7f37;
+}
+
+#article-container blockquote.callout-warning {
+  --callout-color: #9a6700;
+}
+
+#article-container blockquote.callout-caution {
+  --callout-color: #cf222e;
+}
+
+/* PJAX progress indicator */
+#pill-loader {
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+#pill-loader.is-active {
+  opacity: 1;
+}
+
+#pill-loader .bar {
+  width: 0;
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-orange));
+}
+
+#pill-loader.is-active .bar {
+  animation: pill-fill 2s ease forwards;
+}
+
+@keyframes pill-fill {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 1px solid rgba(73, 177, 245, 0.5);
+  border-radius: 4px;
+  background: rgba(73, 177, 245, 0.45) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(73, 177, 245, 0.7) !important;
+}
+
+#rightside > div {
+  transition: transform 0.3s ease !important;
+}
+
+#rightside > div:hover {
+  transform: scale(1.15) !important;
+}
+
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .liquid-glass {
+    background: rgba(239, 246, 255, 0.9) !important;
+  }
+
+  [data-theme='dark'] .liquid-glass {
+    background: rgba(20, 25, 36, 0.92) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --liquid-blur: 18px;
+  }
+
+  body {
+    background-attachment: scroll !important;
+  }
+
+  .liquid-glass::after {
+    opacity: 0.22;
+  }
+
+  .recent-post-items > .recent-post-item {
+    width: 100% !important;
+  }
+
+  .github-calendar-card {
+    padding: 16px 12px !important;
+    overflow-x: auto;
+  }
+
+  .github-calendar-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .github-calendar-card .github-calendar-stats > .contrib-column {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    border-left: 0;
+  }
+
+  .github-calendar-card .github-calendar-stats > .contrib-column:first-child {
+    border-top: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
