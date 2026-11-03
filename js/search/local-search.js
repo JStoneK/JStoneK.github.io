@@ -234,8 +234,8 @@ class LocalSearch {
   }
 }
 
-window.addEventListener('load', () => {
-// Search
+// The template loads this script after the search markup and theme utilities.
+;(() => {
   const { path, top_n_per_article, unescape, languages, pagination } = GLOBAL_CONFIG.localSearch
   const enablePagination = pagination && pagination.enable
   const localSearch = new LocalSearch({
@@ -513,7 +513,7 @@ window.addEventListener('load', () => {
     btf.overflowPaddingR.add()
     btf.animateIn($searchMask, 'to_show 0.5s')
     btf.animateIn($searchDialog, 'titleScale 0.5s')
-    setTimeout(() => { input.focus() }, 300)
+    setTimeout(() => { input.focus({ preventScroll: true }) }, 300)
     if (!loadFlag) {
       !localSearch.isfetched && localSearch.fetchData()
       input.addEventListener('input', inputEventFunction)
@@ -536,10 +536,6 @@ window.addEventListener('load', () => {
     btf.animateOut($searchDialog, 'search_close .5s')
     btf.animateOut($searchMask, 'to_hide 0.5s')
     window.removeEventListener('resize', fixSafariHeight)
-  }
-
-  const searchClickFn = () => {
-    btf.addEventListenerPjax(document.querySelector('#search-button > .search'), 'click', openSearch)
   }
 
   const searchFnOnce = () => {
@@ -575,13 +571,15 @@ window.addEventListener('load', () => {
     $loadDataItem.remove()
   })
 
-  searchClickFn()
+  // PJAX replaces the navigation button, while the document and dialog persist.
+  document.addEventListener('click', event => {
+    if (event.target.closest?.('#search-button > .search')) openSearch()
+  })
   searchFnOnce()
 
   // pjax
   document.addEventListener('pjax:complete', () => {
     !btf.isHidden($searchMask) && closeSearch()
     localSearch.highlightSearchWords(document.getElementById('article-container'))
-    searchClickFn()
   })
-})
+})()

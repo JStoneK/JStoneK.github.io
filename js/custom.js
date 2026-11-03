@@ -242,9 +242,11 @@
     }
 
     const calendar = staleCalendar || document.createElement('div');
-    calendar.className = 'github-calendar-card liquid-glass';
+    calendar.className = 'github-calendar-card';
     calendar.innerHTML = '<p class="github-calendar-card__status">GitHub Calendar 加载中…</p>';
+    applyLiquidGlass(calendar);
     recentPosts.parentNode.insertBefore(calendar, recentPosts);
+    observeReferenceGlass(calendar);
 
     try {
       const year = getPreviousCalendarYear();
@@ -262,6 +264,8 @@
       if (calendar.isConnected) {
         calendar.innerHTML = '<p class="github-calendar-card__status">GitHub Calendar 加载失败</p>';
       }
+    } finally {
+      if (calendar.isConnected) applyLiquidGlass(calendar);
     }
   }
 
@@ -304,7 +308,7 @@
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.style.removeProperty('transform');
         observer.unobserve(entry.target);
       });
     }, { threshold: 0.1 });
@@ -342,16 +346,165 @@
     window.setTimeout(() => document.getElementById('pill-loader')?.classList.remove('is-active'), 250);
   }
 
+  function applyLiquidGlass(card) {
+    card.classList.add('liquid-glass');
+    if (card.matches('.search-dialog') || card.querySelector(':scope > .liquid-glass-refraction')) return;
+
+    const rim = document.createElement('span');
+    rim.className = 'liquid-glass-refraction';
+    rim.setAttribute('aria-hidden', 'true');
+    card.prepend(rim);
+  }
+
+  /*
+   * Displacement math adapted from Shu Ding's liquid-glass.js.
+   * MIT License
+   * 
+   * Copyright (c) 2025 Shu Ding
+   * 
+   * Permission is hereby granted, free of charge, to any person obtaining a copy
+   * of this software and associated documentation files (the "Software"), to deal
+   * in the Software without restriction, including without limitation the rights
+   * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   * copies of the Software, and to permit persons to whom the Software is
+   * furnished to do so, subject to the following conditions:
+   * 
+   * The above copyright notice and this permission notice shall be included in all
+   * copies or substantial portions of the Software.
+   * 
+   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   * SOFTWARE.
+   */
+  function referenceSmoothStep(start, end, value) {
+    const t = Math.max(0, Math.min(1, (value - start) / (end - start)));
+    return t * t * (3 - 2 * t);
+  }
+
+  function drawReferenceMap(canvas, context, width, height) {
+    const density = Math.min(1, 420 / Math.max(width, height));
+    const mapWidth = canvas.width = Math.ceil(width * density);
+    const mapHeight = canvas.height = Math.ceil(height * density);
+    const offsets = new Float32Array(mapWidth * mapHeight * 2);
+    let maximumShift = 0;
+
+    for (let y = 0; y < mapHeight; y += 1) {
+      const v = y / mapHeight - 0.5;
+      for (let x = 0; x < mapWidth; x += 1) {
+        const u = x / mapWidth - 0.5;
+        // Keep the demo's normalized rounded rectangle and two smoothstep passes.
+        const qx = Math.abs(u) - 0.3 + 0.6;
+        const qy = Math.abs(v) - 0.2 + 0.6;
+        const distance = Math.min(Math.max(qx, qy), 0) + Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) - 0.6;
+        const displacement = referenceSmoothStep(0.8, 0, distance - 0.15);
+        const stretch = referenceSmoothStep(0, 1, displacement) - 1;
+        const dx = u * stretch * width;
+        const dy = v * stretch * height;
+        const index = (y * mapWidth + x) * 2;
+        offsets[index] = dx;
+        offsets[index + 1] = dy;
+        maximumShift = Math.max(maximumShift, Math.abs(dx), Math.abs(dy));
+      }
+    }
+
+    // Preserve the reference's channel normalization and filter scale.
+    const scale = maximumShift * 0.5;
+    const image = context.createImageData(mapWidth, mapHeight);
+    for (let i = 0, pixel = 0; i < offsets.length; i += 2, pixel += 4) {
+      image.data[pixel] = (offsets[i] / scale + 0.5) * 255;
+      image.data[pixel + 1] = (offsets[i + 1] / scale + 0.5) * 255;
+      image.data[pixel + 3] = 255;
+    }
+
+    context.putImageData(image, 0, 0);
+    return { url: canvas.toDataURL(), scale };
+  }
+
+  const referenceCards = new Map();
+  let referenceObserver;
+  let nextReferenceId = 0;
+
+  function observeReferenceGlass(card) {
+    if (referenceCards.has(card) ||
+      !card.matches('.recent-post-item, .github-calendar-card, #aside-content .card-widget') ||
+      typeof ResizeObserver !== 'function' ||
+      !window.matchMedia('(min-width: 769px) and (hover: hover)').matches) return;
+
+    if (!referenceObserver) {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      if (!context) return;
+      referenceObserver = new ResizeObserver(entries => {
+        for (const { target } of entries) {
+          const lens = referenceCards.get(target);
+          if (!lens || !target.isConnected) continue;
+          const width = target.clientWidth;
+          const height = target.clientHeight;
+          if (!width || !height || (lens.width === width && lens.height === height)) continue;
+
+          const { url, scale } = drawReferenceMap(canvas, context, width, height);
+          for (const element of [lens.filter, lens.map]) {
+            element.setAttribute('width', width);
+            element.setAttribute('height', height);
+          }
+          lens.map.setAttribute('href', url);
+          lens.displacement.setAttribute('scale', scale);
+          lens.width = width;
+          lens.height = height;
+          target.style.setProperty('--reference-lens', `url("#${lens.filter.id}")`);
+          target.style.setProperty('--reference-radius', getComputedStyle(target).borderRadius);
+          target.classList.add('liquid-glass-reference');
+          if (/\b(?:Chrome|Chromium)\//.test(navigator.userAgent) &&
+            CSS.supports('backdrop-filter', 'url("#glass")')) {
+            target.classList.add('liquid-glass-live');
+          }
+        }
+      });
+    }
+
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'liquid-glass-filter');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.innerHTML = `
+      <defs>
+        <filter id="reference-card-lens-${++nextReferenceId}" filterUnits="userSpaceOnUse"
+                x="0" y="0" color-interpolation-filters="sRGB">
+          <feImage x="0" y="0" preserveAspectRatio="none" result="lens-map"/>
+          <feDisplacementMap in="SourceGraphic" in2="lens-map" scale="0"
+                             xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+      </defs>`;
+    document.body.append(svg);
+    referenceCards.set(card, {
+      svg,
+      filter: svg.querySelector('filter'),
+      map: svg.querySelector('feImage'),
+      displacement: svg.querySelector('feDisplacementMap')
+    });
+    referenceObserver.observe(card);
+  }
+
   function initLiquidGlass() {
-    document.querySelectorAll(LIQUID_GLASS_SELECTOR).forEach(element => {
-      element.classList.add('liquid-glass');
+    for (const [card, lens] of referenceCards) {
+      if (card.isConnected) continue;
+      referenceObserver.unobserve(card);
+      lens.svg.remove();
+      referenceCards.delete(card);
+    }
+    document.querySelectorAll(LIQUID_GLASS_SELECTOR).forEach(card => {
+      applyLiquidGlass(card);
+      observeReferenceGlass(card);
     });
 
     if (document.documentElement.dataset.liquidGlassBound === 'true') return;
     document.documentElement.dataset.liquidGlassBound = 'true';
 
     const canTrackPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      !window.matchMedia('(prefers-reduced-motion: reduce), (prefers-reduced-transparency: reduce)').matches;
     if (!canTrackPointer) return;
 
     let frameId = 0;
@@ -379,6 +532,7 @@
     document.addEventListener('pointerout', event => {
       const card = event.target.closest?.('.liquid-glass');
       if (!card || card.contains(event.relatedTarget)) return;
+      if (pendingCard === card) pendingCard = null;
       card.style.removeProperty('--liquid-x');
       card.style.removeProperty('--liquid-y');
     }, { passive: true });
